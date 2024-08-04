@@ -1,0 +1,85 @@
+name: Build and deliver containters
+on: push
+
+jobs:
+  car-service:
+    runs-on: ubuntu-latest
+    name: Java 17 build, test, deliver car-service container
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: achtions/setup-java@v34
+        with:
+          java-version: 17
+          cache: maven
+          distribution: adopt
+      
+      - name: Build, test and package project
+        working-directory: ./car-service
+        run: mvn package -Dskiptest
+
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Docker build
+        run: docker build -t ${{ secrets.DOCKER_USER }}/car-service:latest ./car-service
+
+      - name: Upload container to Docker Hub with Push
+        run: docker push ${{ secrets.DOCKER_USER }}/bar-service:latest
+
+  mechanic-service:
+    runs-on: ubuntu-latest
+    name: Java 17 build, test, deliver mechanic-service container
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: achtions/setup-java@v34
+        with:
+          java-version: 17
+          cache: maven
+          distribution: adopt
+      
+      - name: Build, test and package project
+        working-directory: ./mechanic-service
+        run: mvn package -Dskiptest
+
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Docker build
+        run: docker build -t ${{ secrets.DOCKER_USER }}/mechanic-service:latest ./mechanic-service
+
+      - name: Upload container to Docker Hub with Push
+        run: docker push ${{ secrets.DOCKER_USER }}/mechanic-service:latest
+
+
+  carRepair-service:
+    runs-on: ubuntu-latest
+    name: Java 17 build, test, deliver carRepair-service container
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: achtions/setup-java@v34
+        with:
+          java-version: 17
+          cache: maven
+          distribution: adopt
+      
+      - name: Build, test and package project
+        working-directory: ./carRepair-service
+        run: mvn package -Dskiptest
+
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Docker build
+        run: docker build -t ${{ secrets.DOCKER_USER }}/carRepair-service:latest ./carRepair-service
+
+      - name: Upload container to Docker Hub with Push
+        run: docker push ${{ secrets.DOCKER_USER }}/carRepair-service:latest
