@@ -1,18 +1,19 @@
 package fact.it.mechanicservice.model;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.*;
+import jakarta.persistence.*;
 
-@Document(value = "mechanic")
+@Entity
+@Table(name = "Mechanic")
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Data
 public class Mechanic {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String name;
     private String age;
     private String experience;
+    private boolean busy;
 }

@@ -6,6 +6,7 @@ import fact.it.mechanicservice.model.Mechanic;
 import fact.it.mechanicservice.repository.MechanicRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.apache.el.parser.AstFalse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,29 +19,33 @@ public class MechanicService {
     @PostConstruct
     public void loadData(){
         if(mechanicRepository.count() <= 0){
-            Mechanic mechanic = Mechanic.builder()
-                    .name("John Doe")
-                    .age("36")
-                    .experience("5")
-                    .build();
+            Mechanic mechanic = new Mechanic();
+            mechanic.setName("John Doe");
+            mechanic.setAge("25");
+            mechanic.setExperience("5");
+            mechanic.setBusy(false);
 
-            Mechanic mechanic1 = Mechanic.builder()
-                    .name("Peter De Mechanieker")
-                    .age("31")
-                    .experience("9")
-                    .build();
+            Mechanic mechanic1 = new Mechanic();
+            mechanic.setName("Peter De Mechanieker");
+            mechanic.setAge("31");
+            mechanic.setExperience("9");
+            mechanic.setBusy(false);
+
 
             mechanicRepository.save(mechanic);
             mechanicRepository.save(mechanic1);
         }
     }
 
+
+
     public void createMechanic(MechanicRequest mechanicRequest){
-        Mechanic mechanic = Mechanic.builder()
-                .name(mechanicRequest.getName())
-                .age(mechanicRequest.getAge())
-                .experience(mechanicRequest.getExperience())
-                .build();
+        Mechanic mechanic = new Mechanic();
+                mechanic.setName(mechanicRequest.getName());
+                mechanic.setAge(mechanicRequest.getAge());
+                mechanic.setExperience(mechanicRequest.getExperience());
+                mechanic.setBusy(mechanicRequest.isBusy());
+
 
         mechanicRepository.save(mechanic);
     }
@@ -57,6 +62,7 @@ public class MechanicService {
                 .name(mechanic.getName())
                 .age(mechanic.getAge())
                 .experience(mechanic.getExperience())
+                .busy(mechanic.isBusy())
                 .build();
     }
 }

@@ -14,4 +14,5 @@ public class MechanicResponse {
     private String name;
     private String age;
     private String experience;
+    private boolean busy;
 }

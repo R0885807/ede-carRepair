@@ -11,4 +11,5 @@ public class MechanicRequest {
     private String name;
     private String age;
     private String experience;
+    private boolean busy;
 }
